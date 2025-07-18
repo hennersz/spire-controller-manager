@@ -41,7 +41,7 @@ func DialSocket(path string) (Client, error) {
 		target = "unix:" + path
 	}
 
-	grpcClient, err := grpc.NewClient(target, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	grpcClient, err := grpc.NewClient(target, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(1024*1024*20)))
 	if err != nil {
 		return nil, fmt.Errorf("failed to dial API socket: %w", err)
 	}
